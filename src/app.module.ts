@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import * as cors from 'cors';
+import cors from 'cors';
 
 @Module({
   imports: [],
@@ -14,7 +14,7 @@ import * as cors from 'cors';
   providers: [AppService],
 })
 export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
+  configure(consumer: MiddlewareConsumer): void {
     consumer.apply(cors()).forRoutes({
       path: '*',
       method: RequestMethod.ALL,
