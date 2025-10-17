@@ -6,10 +6,11 @@ import {
 } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthorsModule } from './authors/authors.module';
 import cors from 'cors';
 
 @Module({
-  imports: [],
+  imports: [AuthorsModule],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -24,3 +25,6 @@ export class AppModule implements NestModule {
 
 // npx prisma db push
 // npx prisma db seed
+// nest g mo authors
+// nest g co authors/authors --flat --no-spec
+// nest g s authors/authors --flat --no-spec
