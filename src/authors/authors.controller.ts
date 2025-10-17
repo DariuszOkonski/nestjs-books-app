@@ -1,11 +1,14 @@
 import {
+  Body,
   Controller,
   Get,
+  Post,
   NotFoundException,
   Param,
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
+import { CreateAuthorDTO } from './dtos/create-author.dto';
 
 @Controller('authors')
 export class AuthorsController {
@@ -25,5 +28,10 @@ export class AuthorsController {
     }
 
     return author;
+  }
+
+  @Post('/')
+  create(@Body() authorData: CreateAuthorDTO) {
+    return this.authorsService.create(authorData);
   }
 }
