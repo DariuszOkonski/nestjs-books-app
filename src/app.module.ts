@@ -4,9 +4,9 @@ import {
   MiddlewareConsumer,
   RequestMethod,
 } from '@nestjs/common';
-import * as cors from 'cors';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import * as cors from 'cors';
 
 @Module({
   imports: [],
