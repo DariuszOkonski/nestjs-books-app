@@ -21,3 +21,6 @@ export class AppModule implements NestModule {
     });
   }
 }
+
+// npx prisma db push
+// npx prisma db seed
