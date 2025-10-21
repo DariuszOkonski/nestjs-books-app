@@ -24,9 +24,6 @@ export class AppModule implements NestModule {
   }
 }
 
-// next is :PUT /api/authors/:id
-// Ćwiczenie 6
-
 // npx prisma db push
 // npx prisma db seed
 // nest g mo authors
