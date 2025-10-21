@@ -43,7 +43,7 @@ export class BooksController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() bookData: UpdateBookDTO,
   ) {
-    if (await !this.bookService.getById(id)) {
+    if (!(await this.bookService.getById(id))) {
       throw new NotFoundException('Book not found');
     }
 
