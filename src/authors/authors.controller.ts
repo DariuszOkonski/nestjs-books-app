@@ -7,6 +7,7 @@ import {
   Param,
   ParseUUIDPipe,
   Put,
+  Delete,
 } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { CreateAuthorDTO } from './dtos/create-author.dto';
@@ -47,6 +48,16 @@ export class AuthorsController {
     }
 
     await this.authorsService.updateById(id, authorData);
+    return { success: true };
+  }
+
+  @Delete('/:id')
+  async deleteById(@Param('id', new ParseUUIDPipe()) id: string) {
+    if (!(await this.authorsService.getById(id))) {
+      throw new NotFoundException('Author not found');
+    }
+
+    await this.authorsService.deleteById(id);
     return { success: true };
   }
 }
