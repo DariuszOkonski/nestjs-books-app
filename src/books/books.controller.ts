@@ -1,12 +1,15 @@
 import {
   Controller,
   Get,
+  Post,
   Delete,
   NotFoundException,
   Param,
   ParseUUIDPipe,
+  Body,
 } from '@nestjs/common';
 import { BooksService } from './books.service';
+import { CreateBookDTO } from './dtos/create-book.dto';
 
 @Controller('books')
 export class BooksController {
@@ -26,6 +29,11 @@ export class BooksController {
     }
 
     return book;
+  }
+
+  @Post('/')
+  public create(@Body() bookData: CreateBookDTO) {
+    return this.bookService.create(bookData);
   }
 
   @Delete('/:id')

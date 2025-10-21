@@ -1,4 +1,8 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
 import { Book } from '@prisma/client';
 import { PrismaService } from 'src/shared/services/prisma.service';
 
@@ -15,6 +19,28 @@ export class BooksService {
       where: { id },
       include: { author: true },
     });
+  }
+
+  public async create(
+    bookData: Omit<Book, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Book> {
+    const { authorId, ...otherData } = bookData;
+
+    try {
+      return await this.prismaService.book.create({
+        data: {
+          ...otherData,
+          author: {
+            connect: { id: authorId },
+          },
+        },
+      });
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new BadRequestException('Book does not exists');
+      }
+      throw error;
+    }
   }
 
   public deleteById(id: Book['id']): Promise<Book> {
