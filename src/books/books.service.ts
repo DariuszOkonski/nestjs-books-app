@@ -7,6 +7,6 @@ export class BooksService {
   constructor(private prismaService: PrismaService) {}
 
   public getAll(): Promise<Book[]> {
-    return this.prismaService.book.findMany();
+    return this.prismaService.book.findMany({ include: { author: true } });
   }
 }
