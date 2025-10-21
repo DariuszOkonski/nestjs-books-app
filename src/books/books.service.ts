@@ -21,6 +21,23 @@ export class BooksService {
     });
   }
 
+  public updateById(
+    id: Book['id'],
+    bookData: Omit<Book, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<Book> {
+    const { authorId, ...otherData } = bookData;
+
+    return this.prismaService.book.update({
+      where: { id },
+      data: {
+        ...otherData,
+        author: {
+          connect: { id: authorId },
+        },
+      },
+    });
+  }
+
   public async create(
     bookData: Omit<Book, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<Book> {
