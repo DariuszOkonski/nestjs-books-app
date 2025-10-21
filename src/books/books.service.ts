@@ -53,8 +53,14 @@ export class BooksService {
         },
       });
     } catch (error) {
+      console.log(' error.code: ', error.code);
+
+      if (error.code === 'P2002') {
+        throw new ConflictException('Title is already taken');
+      }
+
       if (error.code === 'P2025') {
-        throw new BadRequestException('Book does not exists');
+        throw new BadRequestException('Author does not exists');
       }
       throw error;
     }
