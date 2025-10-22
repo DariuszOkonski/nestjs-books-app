@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/shared/services/prisma.service';
 import { User } from '@prisma/client';
 
@@ -18,17 +18,14 @@ export class UsersService {
     return this.prismaService.user.findUnique({ where: { email } });
   }
 
-  // Przygotowujemy serwis ćwiczenie 2 create
   public async create(
-    userData: Omit<User, 'id'>,
+    userData: Omit<User, 'id' | 'role'>,
     password: string,
   ): Promise<User> {
-    const { ...otherData } = userData;
-
     try {
       return await this.prismaService.user.create({
         data: {
-          ...otherData,
+          ...userData,
           password: {
             create: {
               hashedPassword: password,
@@ -37,8 +34,9 @@ export class UsersService {
         },
       });
     } catch (error) {
-      // TODO: chceckout error.code
-
+      if (error.code === 'P2002') {
+        throw new ConflictException('Email is already taken');
+      }
       throw error;
     }
   }
