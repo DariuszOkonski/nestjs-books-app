@@ -19,7 +19,9 @@ export class UsersService {
   }
 
   public async create(
-    userData: Omit<User, 'id' | 'role'>,
+    userData: {
+      email: string;
+    },
     password: string,
   ): Promise<User> {
     try {
