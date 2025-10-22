@@ -73,4 +73,8 @@ export class UsersService {
       throw error;
     }
   }
+
+  public deleteById(id: User['id']): Promise<User> {
+    return this.prismaService.user.delete({ where: { id } });
+  }
 }
