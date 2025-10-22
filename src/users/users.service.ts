@@ -40,4 +40,37 @@ export class UsersService {
       throw error;
     }
   }
+
+  public async updateById(
+    userId: User['id'],
+    userData: Omit<User, 'id'>,
+    password?: string,
+  ): Promise<User> {
+    try {
+      if (password) {
+        return await this.prismaService.user.update({
+          where: { id: userId },
+          data: {
+            ...userData,
+            password: {
+              update: {
+                hashedPassword: password,
+              },
+            },
+          },
+        });
+      }
+
+      return await this.prismaService.user.update({
+        where: { id: userId },
+        data: userData,
+      });
+    } catch (error) {
+      if (error.code === 'P2002') {
+        throw new ConflictException('Email is already taken');
+      }
+
+      throw error;
+    }
+  }
 }
