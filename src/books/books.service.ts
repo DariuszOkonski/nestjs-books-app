@@ -3,7 +3,7 @@ import {
   ConflictException,
   BadRequestException,
 } from '@nestjs/common';
-import { Book } from '@prisma/client';
+import { Book, User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -18,6 +18,21 @@ export class BooksService {
     return this.prismaService.book.findUnique({
       where: { id },
       include: { author: true },
+    });
+  }
+
+  public async like(bookId: Book['id'], userId: User['id']) {
+    return await this.prismaService.book.update({
+      where: { id: bookId },
+      data: {
+        users: {
+          create: {
+            user: {
+              connect: { id: userId },
+            },
+          },
+        },
+      },
     });
   }
 
