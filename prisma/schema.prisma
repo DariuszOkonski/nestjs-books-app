@@ -29,7 +29,7 @@ model Book {
   authorId String
   author Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
-  userOnBooks UserOnBooks[]
+  users UserOnBooks[]
 }
 
 enum Role {
@@ -43,7 +43,7 @@ model User {
   role     Role      @default(USER)
   password Password?
 
-  userOnBooks UserOnBooks[]
+  books UserOnBooks[]
 }
 
 model Password {
